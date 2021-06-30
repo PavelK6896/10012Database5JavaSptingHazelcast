@@ -21,7 +21,7 @@ public class HazelcastConfiguration {
         JoinConfig join = networkConfig.getJoin();
         join.getMulticastConfig().setEnabled(false);
         join.getTcpIpConfig()
-                .addMember("machine1")
+                .addMember("machine2")
                 .addMember("localhost").setEnabled(true);
 
 //        config.setProperty("hazelcast.rest.enabled", "true");

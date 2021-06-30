@@ -21,4 +21,10 @@ public class BookService {
         }
         return "Sample Book Name " + isbn;
     }
+
+    @Cacheable("b")
+    public String getB() {
+        System.out.println("getBookNameByIsbn");
+        return "b";
+    }
 }
