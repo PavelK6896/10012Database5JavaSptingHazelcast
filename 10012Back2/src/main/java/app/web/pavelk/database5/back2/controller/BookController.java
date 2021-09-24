@@ -25,7 +25,6 @@ public class BookController {
         return bookService.getB();
     }
 
-
     @PostMapping("/{i}")
     public String postI(@PathVariable("i") String i) {
         Map<String, String> hazelcastMap = hazelcastInstance.getMap("my-map");
@@ -37,6 +36,22 @@ public class BookController {
     public String getI(@PathVariable("i") String i) {
         Map<String, String> hazelcastMap = hazelcastInstance.getMap("my-map");
         return hazelcastMap.get(i);
+    }
+
+    @GetMapping("/map")
+    public Map<String, String> getMap() {
+        return hazelcastInstance.getMap("my-map");
+    }
+
+    @GetMapping("/clearAll")
+    public String clearAll() {
+        bookService.clearAll();
+        return "ok";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        return bookService.info();
     }
 
 }

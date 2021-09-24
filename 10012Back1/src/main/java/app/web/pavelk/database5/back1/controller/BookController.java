@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
+import java.util.concurrent.ThreadLocalRandom;
 
 @RestController
 @RequestMapping("/books")
@@ -25,17 +26,40 @@ public class BookController {
         return bookService.getB();
     }
 
-    @PostMapping("/{i}")
-    public String postI(@PathVariable("i") String i) {
+    @PostMapping("/map/{i}")
+    public Map<String, String> postI(@PathVariable("i") String i) {
         Map<String, String> hazelcastMap = hazelcastInstance.getMap("my-map");
-        hazelcastMap.put(i, i);
-        return i;
+        hazelcastMap.put(String.valueOf(ThreadLocalRandom.current().nextInt()), i);
+        return hazelcastMap;
     }
 
-    @GetMapping("/{i}")
+    @GetMapping("/map")
+    public Map<String, String> getMap() {
+        return hazelcastInstance.getMap("my-map");
+    }
+
+    @GetMapping("/map/{i}")
     public String getI(@PathVariable("i") String i) {
         Map<String, String> hazelcastMap = hazelcastInstance.getMap("my-map");
         return hazelcastMap.get(i);
     }
+
+    @GetMapping("/clear")
+    public String clear() {
+        bookService.clearCache();
+        return "ok";
+    }
+
+    @GetMapping("/clearAll")
+    public String clearAll() {
+        bookService.clearAll();
+        return "ok";
+    }
+
+    @GetMapping("/info")
+    public String info() {
+        return bookService.info();
+    }
+
 
 }
